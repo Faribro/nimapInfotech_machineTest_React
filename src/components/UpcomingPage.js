@@ -37,15 +37,15 @@ const UpcomingPage = () => {
   };
 
   return (
-    <div className="container-fluid">
+    <div className="container">
       <Header onSearch={handleSearch} />
-      <main className="row mt-4">
+      <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 mt-4">
         {filteredData.map((item) => (
-          <div className="col-lg-3 col-md-4 col-sm-6 mb-4" key={item.id}>
+          <div className="col mb-4" key={item.id}>
             <Card {...item} />
           </div>
         ))}
-      </main>
+      </div>
     </div>
   );
 };
