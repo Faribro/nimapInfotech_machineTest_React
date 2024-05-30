@@ -27,39 +27,46 @@ const Header = ({ onSearch }) => {
 
   return (
     <header
-      className={`animate__animated animate__fadeInDown bg-dark d-flex justify-content-between align-items-center px-5 py-4 sticky-top transition duration-300 ${
+      className={`animate__animated animate__fadeInDown navbar navbar-expand-lg navbar-dark bg-dark ${
         isScrolled ? 'opacity-low' : ''
       }`}
     >
-      <Link to="/" className="navbar-brand text-white h3 mb-0">MovieDb</Link>
-      <nav className="d-flex">
-        <ul className="nav-items mb-0 d-flex justify-content-between w-75"> {/* Adjust width for even spacing */}
-          <li className="nav-item">
-            <Link to="/" className="nav-link text-white active">Popular</Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/top-rated" className="nav-link text-white">Top Rated</Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/upcoming" className="nav-link text-white">Upcoming</Link>
-          </li>
-        </ul>
-        <form className="ms-auto d-flex align-items-center" onSubmit={handleSubmit}>
-          <input
-            className="form-control me-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-            value={searchQuery}
-            onChange={handleChange}
-          />
-          <button className="btn btn-outline-success" type="submit">
-            Search
-          </button>
-        </form>
-      </nav>
+      <div className="container-fluid">
+        <Link to="/" className="navbar-brand">MovieDb</Link>
+        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
+          <ul className="navbar-nav">
+            <li className="nav-item">
+              <Link to="/" className="nav-link active">Popular</Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/top-rated" className="nav-link">Top Rated</Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/upcoming" className="nav-link">Upcoming</Link>
+            </li>
+          </ul>
+          <form className="d-flex" onSubmit={handleSubmit}>
+            <input
+              className="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+              value={searchQuery}
+              onChange={handleChange}
+            />
+            <button className="btn btn-outline-success" type="submit">
+              Search
+            </button>
+          </form>
+        </div>
+      </div>
     </header>
   );
 };
 
 export default Header;
+    q
