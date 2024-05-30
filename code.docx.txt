@@ -1,0 +1,1354 @@
+index.js : 
+
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App";
+
+
+
+const rootElement = document.getElementById("root");
+const root = createRoot(rootElement);
+
+root.render(
+  <StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </StrictMode>
+);
+
+App.js : 
+
+import React from "react";
+import { Route, Routes, Outlet } from "react-router-dom";
+import Home from "./components/Home";
+import Error from "./components/Error";
+import TopRatedPage from "./components/TopRatedPage";
+import UpcomingPage from "./components/UpcomingPage";
+import MovieDetails from "./components/MovieDetails";
+import LogoAnimation from "./components/LogoAnimation"; // Import the LogoAnimation component
+import Footer from "./components/Footer"; // Import the Footer component
+import "./styles.css";
+
+const Head = () => (
+  <>
+    <LogoAnimation /> {/* Render the LogoAnimation component */}
+    <Outlet />
+    
+  </>
+);
+
+const App = () => {
+  return (
+    <>
+      <Routes>
+        <Route path="/" element={<Head />}>
+          <Route index element={<Home />} />
+        </Route>
+        <Route path="/top-rated" element={<TopRatedPage />} />
+        <Route path="/upcoming" element={<UpcomingPage />} />
+        <Route path="/movie/:id" element={<MovieDetails />} />
+        <Route path="*" element={<Error />} />
+      </Routes>
+
+      <Footer /> {/* Render the Footer component */}  
+    </>
+  );
+};
+
+export default App;
+
+
+components/Card.js : 
+
+import React from "react";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { IMAGE_URL } from "../utils/constant";
+
+const Card = ({ id, vote_average, poster_path, original_title }) => (
+  <Link to={`/movie/${id}`} className="items">
+    <div className="cards">
+      <img src={`${IMAGE_URL}${poster_path}`} alt={original_title} className="images" />
+      <p className="title">{original_title}</p>
+      <p className="rating">Rating: {vote_average}</p>
+    </div>
+  </Link>
+);
+
+Card.propTypes = {
+  id: PropTypes.number.isRequired,
+  vote_average: PropTypes.number.isRequired,
+  poster_path: PropTypes.string.isRequired,
+  original_title: PropTypes.string.isRequired
+};
+
+export default Card;
+
+
+components/Error.js : 
+
+import React from "react";
+import { useRouteError } from "react-router-dom";
+
+const Error = () => {
+  const error = useRouteError();
+  return (
+    <div>
+      <h2>Error: {error?.message}</h2>
+      <p>Status: {error?.status} - {error?.statusText}</p>
+    </div>
+  );
+};
+
+export default Error;
+
+components/FireworksCanvas.js : 
+
+import React, { useEffect } from "react";
+import anime from "animejs/lib/anime.es.js";
+
+
+const FireworksCanvas = () => {
+  useEffect(() => {
+    const iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
+    const tap = ('ontouchstart' in window || navigator.msMaxTouchPoints) ? 'touchstart' : 'mousedown';
+    if (iOS) document.body.classList.add('iOS');
+
+    const setCanvasSize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+
+    const canvas = document.querySelector('.fireworks');
+    const ctx = canvas.getContext('2d');
+    const numberOfParticules = 24;
+    const distance = 200;
+    let x = 0;
+    let y = 0;
+    const animations = [];
+
+    const createCircle = (x, y) => {
+      const p = {};
+      p.x = x;
+      p.y = y;
+      p.color = '#FFF';
+      p.radius = 0;
+      p.alpha = 1;
+      p.lineWidth = 6;
+      p.draw = () => {
+        ctx.globalAlpha = p.alpha;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI, true);
+        ctx.lineWidth = p.lineWidth;
+        ctx.strokeStyle = p.color;
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+      };
+      return p;
+    };
+
+    const createParticule = (x, y) => {
+      const p = {};
+      p.x = x;
+      p.y = y;
+      p.color = ['#FF324A', '#31FFA6', '#206EFF', '#FFFF99'][anime.random(0, 3)];
+      p.radius = anime.random(getFontSize(), getFontSize() * 2);
+      p.draw = () => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI, true);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+      };
+      return p;
+    };
+
+    const createParticles = (x, y) => {
+      const particules = [];
+      for (let i = 0; i < numberOfParticules; i++) {
+        const p = createParticule(x, y);
+        particules.push(p);
+      }
+      return particules;
+    };
+
+    const removeAnimation = (animation) => {
+      const index = animations.indexOf(animation);
+      if (index > -1) animations.splice(index, 1);
+    };
+
+    const animateParticules = (x, y) => {
+      setCanvasSize();
+      const particules = createParticles(x, y);
+      const circle = createCircle(x, y);
+      const particulesAnimation = anime({
+        targets: particules,
+        x: (p) => p.x + anime.random(-distance, distance),
+        y: (p) => p.y + anime.random(-distance, distance),
+        radius: 0,
+        duration: () => anime.random(1200, 1800),
+        easing: 'easeOutExpo',
+        complete: removeAnimation
+      });
+      const circleAnimation = anime({
+        targets: circle,
+        radius: () => anime.random(getFontSize() * 8.75, getFontSize() * 11.25),
+        lineWidth: 0,
+        alpha: {
+          value: 0,
+          easing: 'linear',
+          duration: () => anime.random(400, 600)
+        },
+        duration: () => anime.random(1200, 1800),
+        easing: 'easeOutExpo',
+        complete: removeAnimation
+      });
+      animations.push(particulesAnimation);
+      animations.push(circleAnimation);
+    };
+
+    const mainLoop = anime({
+      duration: Infinity,
+      update: () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        animations.forEach((anim) => {
+          anim.animatables.forEach((animatable) => {
+            animatable.target.draw();
+          });
+        });
+      }
+    });
+
+    const handleTap = (e) => {
+      const updateCoords = (e) => {
+        x = e.clientX || e.touches[0].clientX;
+        y = e.clientY || e.touches[0].clientY;
+      };
+
+      updateCoords(e);
+      animateParticules(x, y);
+    };
+
+    window.addEventListener('resize', setCanvasSize, false);
+    document.addEventListener(tap, handleTap, false);
+
+    return () => {
+      document.removeEventListener(tap, handleTap, false);
+      window.removeEventListener('resize', setCanvasSize, false);
+    };
+  }, []);
+
+  return <canvas className="fireworks" />;
+};
+
+export default FireworksCanvas;
+
+components/Footer.js :
+
+import React from "react";
+import { FaGithub, FaLinkedin } from "react-icons/fa"; // Import required icons
+
+const Footer = () => {
+  return (
+    <footer className="footer">
+      <div className="container">
+        <div className="footer-content">
+          <div className="footer-logo">
+            <h1 className="highlighted-text">
+              Task Submitted to <span className="nimap-highlight">Nimap Infotech</span>
+            </h1>
+            <a href="https://www.nimapinfotech.com/" target="_blank" rel="noopener noreferrer">
+              Nimap Infotech
+            </a>
+          </div>
+          <div className="footer-links">
+            <div className="social-links">
+              <a href="https://github.com/Faribro/nimapInfotech_machineTest_React" target="_blank" rel="noopener noreferrer">
+                <FaGithub />
+              </a>
+              <a href="https://www.linkedin.com/in/farid-sayyed/" target="_blank" rel="noopener noreferrer">
+                <FaLinkedin />
+              </a>
+            </div>
+            <div className="contact-info">
+              <div className="contact-item">
+                <span><i className="fas fa-envelope"></i></span>
+                <p>faridsayyed1010@gmail.com</p>
+              </div>
+              <div className="contact-item">
+                <span><i className="fas fa-phone"></i></span>
+                <p>9004611981</p>
+              </div>
+              <div className="contact-item">
+                <span><i className="fas fa-map-marker-alt"></i></span>
+                <p>Kalyan, Mumbai, India</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
+
+
+components/Header.js : 
+
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+
+const Header = ({ onSearch }) => {
+  const [search, setSearch] = useState("");
+
+  const handleInputChange = (e) => setSearch(e.target.value);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSearch(search.trim());
+  };
+
+  return (
+    <header className="container">
+      <nav className="navbar">
+        <Link to="/" className="logo-name">MovieDb</Link>
+        <div className="nav-items">
+          <ul className="nav-list">
+            <li className="nav-item">
+              <Link to="/" className="nav-link">Popular</Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/top-rated" className="nav-link">Top Rated</Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/upcoming" className="nav-link">Upcoming</Link>
+            </li>
+          </ul>
+          <form className="search-form" onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Movie Name"
+              name="search"
+              className="input-field"
+              value={search}
+              onChange={handleInputChange}
+            />
+            <button type="submit" className="search-button">Search</button>
+          </form>
+        </div>
+      </nav>
+    </header>
+  );
+};
+
+Header.propTypes = {
+  onSearch: PropTypes.func.isRequired
+};
+
+export default Header;
+
+components/ Home.js : 
+
+import React, { useEffect, useState } from "react";
+import { URL } from "../utils/constant";
+import Header from "./Header";
+import Card from "./Card";
+
+const Home = () => {
+  const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const filtered = searchQuery
+      ? data.filter(item =>
+          item.original_title.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      : data;
+    setFilteredData(filtered);
+  }, [data, searchQuery]);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(URL);
+      const result = await response.json();
+      setData(result.results);
+      setFilteredData(result.results);
+    } catch (error) {
+      console.error("Failed to fetch data", error);
+    }
+  };
+
+  const handleSearch = (query) => setSearchQuery(query);
+
+  return (
+    <>
+      <Header onSearch={handleSearch} />
+      <div className="cards-container">
+        {filteredData.map(item => (
+          <Card {...item} key={item.id} />
+        ))}
+      </div>
+    </>
+  );
+};
+
+export default Home;
+
+components/LogoAnimation.js : 
+
+import React, { useEffect } from "react";
+import anime from "animejs/lib/anime.es.js";
+
+const LogoAnimation = () => {
+  useEffect(() => {
+    const setDashoffset = (el) => {
+      const l = el.getTotalLength();
+      el.setAttribute("stroke-dasharray", l);
+      return [l, 0];
+    };
+
+    const letters = anime({
+      targets: "#lines path",
+      strokeDashoffset: {
+        value: setDashoffset,
+        duration: 700,
+        easing: "easeOutQuad",
+      },
+      transform: ["translate(0 128)", "translate(0 0)"],
+      delay: (el, i) => 750 + i * 120,
+      duration: 1400,
+    });
+
+    const dotJSRoll = anime({
+      targets: "#dot-js",
+      transform: ["translate(0 0)", "translate(544 0)"],
+      delay: letters.duration - 800,
+      duration: 800,
+      elasticity: 300,
+    });
+
+    const dotJSDown = anime({
+      targets: "#dot-js",
+      transform: ["translate(0 -304)", "translate(0 0)"],
+      duration: 500,
+      elasticity: 600,
+      autoplay: false,
+    });
+
+    const dotJSUp = anime({
+      targets: "#dot-js",
+      transform: ["translate(0 0) scale(1 3)", "translate(0 -352) scale(1 1)"],
+      duration: 800,
+      easing: "easeOutCirc",
+      complete: () => {
+        const animatable = dotJSDown.animatables[0];
+        if (animatable) {
+          const dot = animatable.target.getBoundingClientRect();
+          const pos = { x: dot.left + dot.width / 2, y: dot.top + dot.height / 2 };
+          fireworks.boom(pos.x, pos.y);
+        }
+      },
+    });
+
+    const letterI = anime({
+      targets: "#line-i-1",
+      strokeDashoffset: {
+        value: setDashoffset,
+        duration: 700,
+        easing: "easeOutQuad",
+      },
+      transform: () =>
+        ff ? ["rotate(360)", "rotate(0)"] : ["rotate(360 240 64)", "rotate(0 240 64)"],
+      duration: 2500,
+      delay: letters.duration - 780,
+    });
+
+    const dotI = anime({
+      targets: "#dot-i",
+      transform: ["translate(0 -352) scale(1 3)", "translate(0 0) scale(1 1)"],
+      opacity: { value: [0, 1], easing: "linear", duration: 100 },
+      delay: letters.duration + 250,
+    });
+
+    const JSletters = anime({
+      targets: ["#line-j", "#line-s"],
+      strokeDashoffset: setDashoffset,
+      duration: 1400,
+      delay: (el, i) => (letterI.duration - 1400) + i * 60,
+      easing: "easeInOutQuart",
+    });
+
+    const gradients = anime({
+      targets: "#fills *:not(#dot-i)",
+      opacity: [0, 1],
+      delay: letterI.duration - 300,
+      delay: (el, i, l) => {
+        const mid = l / 2;
+        const index = (i - mid) > mid ? 0 : i;
+        const delay = Math.abs(index - mid);
+        return (letterI.duration - 1300) + delay * 30;
+      },
+      duration: 500,
+      easing: "linear",
+    });
+
+    // Cleanup function
+    return () => {
+      letters.pause();
+      dotJSRoll.pause();
+      dotJSDown.pause();
+      dotJSUp.pause();
+      letterI.pause();
+      dotI.pause();
+      JSletters.pause();
+      gradients.pause();
+    };
+  }, []);
+
+  return null;
+};
+
+export default LogoAnimation;
+
+components/MovieDetails.js : 
+
+import React, { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import Header from "./Header";
+import { IMAGE_URL } from "../utils/constant";
+import NotFoundMessage from "./NotFoundMessage";
+
+const MovieDetails = () => {
+  const { id } = useParams();
+  const [details, setDetails] = useState(null);
+  const [cast, setCast] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
+
+  useEffect(() => {
+    const fetchDetails = async () => {
+      try {
+        const response = await fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=c45a857c193f6302f2b5061c3b85e743&language=en-US`);
+        if (!response.ok) {
+          setNotFound(true);
+          setLoading(false);
+          return;
+        }
+        const data = await response.json();
+        setDetails(data);
+        const creditsResponse = await fetch(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=c45a857c193f6302f2b5061c3b85e743&language=en-US`);
+        const creditsData = await creditsResponse.json();
+        setCast(creditsData.cast);
+        setLoading(false);
+      } catch (error) {
+        console.error("Failed to fetch details", error);
+        setLoading(false);
+      }
+    };
+
+    fetchDetails();
+  }, [id]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (notFound) {
+    return <NotFoundMessage />;
+  }
+
+  if (!details) {
+    return null;
+  }
+
+  const { original_title, vote_average, genres, release_date, overview, poster_path, backdrop_path } = details;
+  const formattedDate = new Date(release_date).toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric"
+  });
+
+  return (
+    <>
+      <Header />
+      <div className="details-cast-section">
+        <div className="details-section">
+          <div className="details">
+            <div className="bg">
+              <img src={`${IMAGE_URL}${poster_path}`} alt={original_title} className="movie-item" />
+              <div className="bg-items">
+                <h3 className="details-title">{original_title}</h3>
+                <p className="details-rating">Rating: {vote_average}</p>
+                <p className="details-genres">Genres: {genres.map(genre => genre.name).join(", ")}</p>
+                <p className="details-release-date">Release Date: {formattedDate}</p>
+              </div>
+            </div>
+            <div className="movie-details">
+              <h2 className="overview">Overview:</h2>
+              <p className="paragraph">{overview}</p>
+            </div>
+          </div>
+          <div className="background-image">
+            <img src={`${IMAGE_URL}${backdrop_path}`} alt="Background" className="item-images" />
+          </div>
+        </div>
+        <div className="cast">
+          <h2 className="cast-heading">Cast</h2>
+          <ul className="cast-list">
+            {cast.map(actor => (
+              <li key={actor.id} className="cast-item">
+                <img src={`${IMAGE_URL}${actor.profile_path}`} alt={actor.name} className="cast-image" />
+                <div className="cast-details">
+                  <p className="cast-name">{actor.name}</p>
+                  <p className="cast-character">{actor.character}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default MovieDetails;
+
+components/NotFoundMessage.js :
+import React from "react";
+
+const NotFoundMessage = () => {
+  return (
+    <div className="not-found-container">
+      <h1 className="not-found-message">Movie Not Found</h1>
+      <p className="not-found-submessage">Please search another</p>
+    </div>
+  );
+};
+
+export default NotFoundMessage;
+
+components/TopRatedPage.js :
+import React, { useEffect, useState } from "react";
+import { TOP_RATED_URL } from "../utils/constant";
+import Header from "./Header";
+import Card from "../components/Card";
+
+const TopRatedPage = () => {
+  const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    getAllData();
+  }, []);
+
+  useEffect(() => {
+    if (data && searchQuery.trim() !== "") {
+      const filtered = data.filter((item) =>
+        item.original_title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredData(filtered);
+    } else {
+      setFilteredData(data);
+    }
+  }, [data, searchQuery]);
+
+  async function getAllData() {
+    const apiData = await fetch(TOP_RATED_URL);
+    const res = await apiData.json();
+    console.log(res.results);
+    setData(res.results);
+    setFilteredData(res.results);
+  }
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
+
+  return (
+    <>
+      <Header onSearch={handleSearch} />
+      <div className="cards-container">
+        {filteredData?.map((item) => (
+          <Card {...item} key={item.id} />
+        ))}
+      </div>
+    </>
+  );
+};
+
+export default TopRatedPage;
+
+components/UpcomingPage.js : 
+
+import React, { useEffect, useState } from "react";
+import { UPCOMING_MOVIES } from "../utils/constant";
+import Header from "./Header";
+import Card from "../components/Card";
+
+const UpcomingPage = () => {
+  const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    getAllData();
+  }, []);
+
+  useEffect(() => {
+    if (data && searchQuery.trim() !== "") {
+      const filtered = data.filter((item) =>
+        item.original_title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredData(filtered);
+    } else {
+      setFilteredData(data);
+    }
+  }, [data, searchQuery]);
+
+  async function getAllData() {
+    const apiData = await fetch(UPCOMING_MOVIES);
+    const res = await apiData.json();
+    console.log(res.results);
+    setData(res.results);
+    setFilteredData(res.results);
+  }
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
+
+  return (
+    <>
+      <Header onSearch={handleSearch} />
+      <div className="cards-container">
+        {filteredData?.map((item) => (
+          <Card {...item} key={item.id} />
+        ))}
+      </div>
+    </>
+  );
+};
+
+export default UpcomingPage;
+
+styles.css : 
+* {
+  margin: 0px;
+  padding: 0px;
+  font-family: sans-serif;
+}
+
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.container {
+  width: 100%;
+  background-color: #5a5a5a;
+  min-width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 500px) {
+  .container {
+    max-width: 100%;
+  }
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  height: 50px;
+  padding: 10px 20px;
+  align-items: center;
+  background-color: #333;
+}
+
+
+
+@media screen and (max-width: 576px) {
+  .navbar {
+    font-size: 12px;
+    padding: 10px;
+    height: 30px;
+  }
+}
+
+@media screen and (max-width: 376px) {
+  .navbar {
+    font-size: 8px;
+    padding: 5px;
+    height: 30px;
+  }
+}
+
+.logo-name {
+  font-size: 20px;
+  color: white;
+  font-weight: bold;
+}
+
+@media screen and (max-width: 576px) {
+  .logo-name {
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 376px) {
+  .logo-name {
+    font-size: 12px;
+  }
+}
+
+.nav-items {
+  display: flex;
+  align-items: center;
+}
+
+.nav-list {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+}
+
+.nav-item {
+  margin-left: 20px;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  transition: color 0.3s;
+}
+
+.nav-link:hover {
+  color: #f39c12;
+}
+
+@media screen and (max-width: 576px) {
+  .nav-item {
+    margin-left: 10px;
+  }
+
+  .nav-link {
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 376px) {
+  .nav-item {
+    margin-left: 5px;
+  }
+
+  .nav-link {
+    font-size: 8px;
+  }
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+}
+
+.input-field {
+  height: 25px;
+  width: 120px;
+  border-radius: 4px;
+  padding: 8px;
+  border: none;
+  margin: 0 10px;
+  font-size: 16px;
+}
+
+@media screen and (max-width: 576px) {
+  .input-field {
+    font-size: 12px;
+    width: 50px;
+  }
+}
+
+@media screen and (max-width: 376px) {
+  .input-field {
+    font-size: 6px;
+    width: 30px;
+    height: 15px;
+  }
+}
+
+.search-button {
+  height: 40px;
+  width: 60px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f39c12;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.search-button:hover {
+  background-color: #e67e22;
+}
+
+@media screen and (max-width: 576px) {
+  .search-button {
+    font-size: 8px;
+    width: 40px;
+    padding: 8px;
+  }
+}
+
+@media screen and (max-width: 376px) {
+  .search-button {
+    font-size: 6px;
+    width: 30px;
+    padding: 5px;
+    height: 29px;
+  }
+}
+
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #303030;
+  justify-content: center;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 10px;
+}
+
+.cards {
+  margin: 20px;
+  text-align: center;
+  transition: transform 0.3s;
+  border-radius: 10px;
+  background-color: #404347;
+  padding: 20px;
+  width: 200px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cards:hover {
+  transform: scale(1.05);
+}
+
+.images {
+  height: 250px;
+  width: 150px;
+  border-radius: 10px;
+}
+
+.title {
+  font-size: 16px;
+  color: white;
+  margin-top: 10px;
+}
+
+.rating {
+  color: #f39c12;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.details-section {
+  background-color: #223145;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px;
+}
+
+.details-cast-section {
+  background-color: #404347;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.item-images {
+  height: 300px;
+  width: auto;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.background-image {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.bg {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+  background-color: #404347;
+}
+
+.bg-items {
+  padding-left: 20px;
+}
+
+.details-title {
+  font-size: 24px;
+  color: white;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.details-rating {
+  font-size: 18px;
+  color: #f39c12;
+  margin-bottom: 12px;
+}
+
+.details-release-date {
+  font-size: 16px;
+  color: white;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.genres {
+  font-size: 14px;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.movie-item {
+  height: 150px;
+  width: 100px;
+  border-radius: 10px;
+  margin: 10px;
+}
+
+.movie-details {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  margin-top: 20px;
+}
+
+.overview {
+  font-size: 18px;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.paragraph {
+  font-size: 16px;
+  color: #f0f0f0;
+  margin-bottom: 20px;
+}
+
+.actor-image {
+  height: 200px;
+  width: 160px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.cast-heading {
+  color: white;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.cast {
+  background-color: #404347;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.cast-list {
+  display: flex;
+  flex-wrap: wrap;
+  list-style-type: none;
+  justify-content: center;
+  padding: 0;
+}
+
+.cast-item {
+  margin: 10px;
+  text-align: center;
+}
+
+.cast-image {
+  height: 200px;
+  width: 160px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.actor-details {
+  color: white;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.actor-details .cast-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.actor-details .cast-character {
+  font-size: 16px;
+  color: #f39c12;
+  margin-bottom: 10px;
+}
+
+@media screen and (max-width: 576px) {
+  .item-images {
+    height: 200px;
+  }
+
+  .details-title {
+    font-size: 18px;
+  }
+
+  .paragraph {
+    font-size: 14px;
+  }
+
+  .overview {
+    font-size: 16px;
+  }
+
+  .movie-item {
+    height: 100px;
+    width: 100px;
+  }
+}
+
+@media screen and (max-width: 376px) {
+  .details-section {
+    height: auto;
+  }
+
+  .item-images {
+    height: 150px;
+  }
+
+  .details-title {
+    font-size: 14px;
+  }
+
+  .paragraph {
+    font-size: 12px;
+  }
+
+  .overview {
+    font-size: 14px;
+  }
+
+  .movie-item {
+    height: 100px;
+    width: 100px;
+  }
+}
+/* Footer styles */
+.footer {
+  background-color: #000;
+  color: #fff;
+  padding: 40px 0;
+  text-align: center;
+
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.footer-logo {
+  margin-bottom: 20px;
+
+}
+
+.social-links {
+  margin-bottom: 20px;
+
+}
+
+.contact-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+}
+
+.contact-item {
+  margin: 0 20px;
+  margin-bottom: 10px;
+
+}
+
+.contact-item span {
+  margin-right: 5px;
+
+}
+
+/* Add animation and gradient effects */
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.navbar,
+.footer {
+  animation: fadeIn 1s ease-in-out;
+
+}
+
+
+
+
+/* Add gradient effect */
+
+body {
+  background: linear-gradient(45deg, #f39c12, #e74c3c, #9b59b6, #3498db, #1abc9c, #f39c12);
+  background-size: 400% 400%;
+  animation: gradient 15s infinite;
+
+
+}
+
+/* Add hover effect to cards */
+
+.cards {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+}
+
+/* Add hover effect to cast images */
+
+.cast-image {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Add hover effect to movie images */
+
+.movie-item {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Add hover effect to actor images */
+
+.actor-image {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Add hover effect to search button */
+
+.search-button {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Add hover effect to footer links */
+
+.social-links a {
+  color: #fff;
+  margin: 0 10px;
+  transition: color 0.3s;
+}
+
+.social-links a:hover {
+  color: #f39c12;
+}
+
+/* Add hover effect to footer contact info */
+
+.contact-item a {
+  color: #fff;
+  transition: color 0.3s;
+  
+}
+
+.contact-item a:hover {
+  color: #f39c12;
+}
+
+/* Add hover effect to navbar links */
+
+.nav-link {
+  transition: color 0.3s;
+}
+
+.nav-link:hover {
+  color: #f39c12;
+}
+
+/* Add hover effect to footer logo */
+
+.footer-logo img {
+  transition: transform 0.3s;
+}
+
+.footer-logo img:hover {
+  transform: scale(1.1);
+}
+
+/* Add hover effect to cards */
+
+.cards:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+
+utils/constant.js : 
+export const URL =
+  "https://api.themoviedb.org/3/movie/popular?api_key=c45a857c193f6302f2b5061c3b85e743&language=en-US&page=1";
+export const IMAGE_URL = "https://image.tmdb.org/t/p/w500";
+
+export const TOP_RATED_URL =
+  "https://api.themoviedb.org/3/movie/top_rated?api_key=c45a857c193f6302f2b5061c3b85e743&language=en-US&page=1";
+export const UPCOMING_MOVIES =
+  "https://api.themoviedb.org/3/movie/upcoming?api_key=c45a857c193f6302f2b5061c3b85e743&language=en-US&page=1";
+

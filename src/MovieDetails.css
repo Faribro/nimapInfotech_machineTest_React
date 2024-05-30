@@ -1,0 +1,9 @@
+.card {
+    background: rgba(0, 0, 0, 0.7);
+  }
+  
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    filter: invert(1);
+  }
+  

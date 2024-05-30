@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { UPCOMING_MOVIES } from "../utils/constant";
 import Header from "./Header";
-import Card from "../components/Card";
+import Card from "./Card";
 
 const UpcomingPage = () => {
   const [data, setData] = useState([]);
@@ -9,26 +9,27 @@ const UpcomingPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    getAllData();
+    fetchData();
   }, []);
 
   useEffect(() => {
-    if (data && searchQuery.trim() !== "") {
-      const filtered = data.filter((item) =>
-        item.original_title.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-      setFilteredData(filtered);
-    } else {
-      setFilteredData(data);
-    }
+    const filtered = searchQuery
+      ? data.filter((item) =>
+          item.original_title.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      : data;
+    setFilteredData(filtered);
   }, [data, searchQuery]);
 
-  async function getAllData() {
-    const apiData = await fetch(UPCOMING_MOVIES);
-    const res = await apiData.json();
-    console.log(res.results);
-    setData(res.results);
-    setFilteredData(res.results);
+  async function fetchData() {
+    try {
+      const response = await fetch(UPCOMING_MOVIES);
+      const result = await response.json();
+      setData(result.results);
+      setFilteredData(result.results);
+    } catch (error) {
+      console.error("Failed to fetch data", error);
+    }
   }
 
   const handleSearch = (query) => {
@@ -36,14 +37,16 @@ const UpcomingPage = () => {
   };
 
   return (
-    <>
+    <div className="container-fluid">
       <Header onSearch={handleSearch} />
-      <div className="cards-container">
-        {filteredData?.map((item) => (
-          <Card {...item} key={item.id} />
+      <main className="row mt-4">
+        {filteredData.map((item) => (
+          <div className="col-lg-3 col-md-4 col-sm-6 mb-4" key={item.id}>
+            <Card {...item} />
+          </div>
         ))}
-      </div>
-    </>
+      </main>
+    </div>
   );
 };
 

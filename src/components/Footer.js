@@ -3,42 +3,47 @@ import { FaGithub, FaLinkedin } from "react-icons/fa"; // Import required icons
 
 const Footer = () => {
   return (
-    <footer className="footer">
+    <footer className="footer bg-dark text-white d-flex flex-column justify-content-center align-items-center py-5">
       <div className="container">
-        <div className="footer-content">
+        <div
+          className="footer-content d-flex flex-wrap justify-content-between align-items-center backdrop-filter backdrop-blur-md" // Glass effect
+        >
           <div className="footer-logo">
-            <h1 className="highlighted-text">
-              Task Submitted to <span className="nimap-highlight">Nimap Infotech</span>
+            <h1 className="highlighted-text text-white">
+              Task Submitted to{" "}
+              <span className="nimap-highlight">Nimap Infotech</span>
             </h1>
-            <a href="https://www.nimapinfotech.com/" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://www.nimapinfotech.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white"
+            >
               Nimap Infotech
             </a>
           </div>
-          <div className="footer-links">
-            <div className="social-links">
-              <a href="https://github.com/Faribro/nimapInfotech_machineTest_React" target="_blank" rel="noopener noreferrer">
-                <FaGithub />
-              </a>
-              <a href="https://www.linkedin.com/in/farid-sayyed/" target="_blank" rel="noopener noreferrer">
-                <FaLinkedin />
-              </a>
-            </div>
-            <div className="contact-info">
-              <div className="contact-item">
-                <span><i className="fas fa-envelope"></i></span>
-                <p>faridsayyed1010@gmail.com</p>
-              </div>
-              <div className="contact-item">
-                <span><i className="fas fa-phone"></i></span>
-                <p>9004611981</p>
-              </div>
-              <div className="contact-item">
-                <span><i className="fas fa-map-marker-alt"></i></span>
-                <p>Kalyan, Mumbai, India</p>
-              </div>
-            </div>
+          <div className="social-links d-flex align-items-center">
+            <a
+              href="https://github.com/Faribro/nimapInfotech_machineTest_React"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white mx-2"
+            >
+              <FaGithub size={24} />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/farid-sayyed/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white"
+            >
+              <FaLinkedin size={24} />
+            </a>
           </div>
         </div>
+      </div>
+      <div className="container py-2">
+        <div className="text-center text-muted">Developed by Farid Sayyed</div>
       </div>
     </footer>
   );

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import anime from "animejs/lib/anime.es.js";
 
+
 const FireworksCanvas = () => {
   useEffect(() => {
     const iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);

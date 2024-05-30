@@ -8,6 +8,8 @@ import MovieDetails from "./components/MovieDetails";
 import LogoAnimation from "./components/LogoAnimation"; // Import the LogoAnimation component
 import Footer from "./components/Footer"; // Import the Footer component
 import "./styles.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const Head = () => (
   <>
@@ -20,6 +22,7 @@ const Head = () => (
 const App = () => {
   return (
     <>
+      <div className="App d-flex flex-column min-vh-100">
       <Routes>
         <Route path="/" element={<Head />}>
           <Route index element={<Home />} />
@@ -31,6 +34,7 @@ const App = () => {
       </Routes>
 
       <Footer /> {/* Render the Footer component */}  
+      </div>
     </>
   );
 };
