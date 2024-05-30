@@ -500,6 +500,18 @@
   animation: fadeIn 1s ease-in-out;
 }
 
+.navbar-fixed {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1050; /* Ensure this value is higher than other elements on your page */
+}
+
+.navbar-scrolled {
+  opacity: 0.9;
+}
+
+
 /* Add gradient effect */
 body {
   background: linear-gradient(45deg, #f39c12, #e74c3c, #9b59b6, #3498db, #1abc9c, #f39c12);

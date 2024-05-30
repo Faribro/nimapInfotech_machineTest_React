@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import '../Header.css'; // Import your CSS file
 
 const Header = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [isScrolled, setIsScrolled] = useState(false); // Track scroll state
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const handleChange = (e) => {
     setSearchQuery(e.target.value);
@@ -16,25 +17,33 @@ const Header = ({ onSearch }) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollY = window.scrollY; // Get current scroll position
-      setIsScrolled(scrollY > 0); // Update state based on scroll
+      setIsScrolled(window.scrollY > 0);
     };
 
     window.addEventListener('scroll', handleScroll);
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   return (
     <header
-      className={`animate__animated animate__fadeInDown navbar navbar-expand-lg navbar-dark bg-dark ${
-        isScrolled ? 'opacity-low' : ''
+      className={`navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed ${
+        isScrolled ? 'navbar-scrolled' : ''
       }`}
     >
       <div className="container-fluid">
         <Link to="/" className="navbar-brand">MovieDb</Link>
-        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
@@ -69,4 +78,3 @@ const Header = ({ onSearch }) => {
 };
 
 export default Header;
-    q

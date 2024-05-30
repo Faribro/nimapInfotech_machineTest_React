@@ -1,0 +1,43 @@
+.navbar-fixed {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1050; /* Ensure this value is higher than other elements on your page */
+    backdrop-filter: blur(10px); /* Glass effect */
+    background-color: rgba(0, 0, 0, 0.6); /* Dark shade with opacity */
+  }
+  
+  .navbar-scrolled {
+    opacity: 0.9;
+  }
+  
+  .navbar-toggler {
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .navbar-collapse {
+    background-color: rgba(0, 0, 0, 0.8); /* Darker shade for the expanded menu */
+    border-radius: 5px;
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .navbar-fixed {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1050; /* Ensure this value is higher than other elements on your page */
+  }
+  
+  .navbar-scrolled {
+    opacity: 0.9;
+  }
+  
