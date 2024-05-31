@@ -5,6 +5,7 @@ import { IMAGE_URL } from "../utils/constant";
 import NotFoundMessage from "./NotFoundMessage";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import "../MovieDetails.css";
 
 const MovieDetails = () => {
   const { id } = useParams();
@@ -45,10 +46,10 @@ const MovieDetails = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       const carousel = document.querySelector("#cast-slider");
-      if (carousel) {
+      if (carousel && !carousel.classList.contains("carousel-sliding")) {
         carousel.dispatchEvent(new Event("slide.bs.carousel", { bubbles: true }));
       }
-    }, 3000); // Change the interval time here (in milliseconds)
+    }, 3000);
 
     return () => clearInterval(interval);
   }, []);
@@ -76,24 +77,22 @@ const MovieDetails = () => {
     <>
       <Header />
       <div
-        className="container-fluid"
+        className="container-fluid movie-details-bg"
         style={{
           backgroundImage: `url(${IMAGE_URL}${backdrop_path})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
+          marginTop: "20px",
+          paddingTop: "20px",
         }}
       >
         <div className="row mb-4">
           <div className="col-md-12">
-            <div className="card border-0 shadow-lg" style={{ padding: "20px", borderRadius: "10px" }}>
-              <div className="card-body" style={{ backgroundColor: "transparent", paddingLeft: 0 }}>
-                <div className="d-flex align-items-center">
-                  <img
-                    src={`${IMAGE_URL}${poster_path}`}
-                    alt={original_title}
-                    style={{ width: "150px", height: "auto", borderRadius: "10px", marginRight: "20px" }}
-                  />
-                  <div>
+            <div className="card border-0 shadow-lg" style={{ padding: "20px", borderRadius: "9rem" }}>
+              <div className="card-body" style={{ backgroundColor: "black", paddingLeft: 0, color: "white" }}>
+                <div className="d-flex align-items-start">
+                  <img src={`${IMAGE_URL}${poster_path}`} alt={original_title} className="movie-poster" />
+                  <div className="movie-details-text">
                     <h3 className="card-title">{original_title}</h3>
                     <p className="card-text">
                       <strong>Rating:</strong> {vote_average}
@@ -129,10 +128,12 @@ const MovieDetails = () => {
                 <div key={chunkIndex} className={`carousel-item ${chunkIndex === 0 ? "active" : ""}`}>
                   <div className="d-flex justify-content-center">
                     {chunk.map((actor) => (
-                      <div key={actor.id} className="card m-2" style={{ width: "10rem" }}>
-                        <img src={`${IMAGE_URL}${actor.profile_path}`} alt={actor.name} className="card-img-top" />
+                      <div key={actor.id} className="card cast-card m-2">
+                        <div className="cast-card-img-wrapper">
+                          <img src={`${IMAGE_URL}${actor.profile_path}`} alt={actor.name} className="cast-card-img" />
+                        </div>
                         <div className="card-body text-center">
-                          <p className="card-text">{actor.name}</p>
+                          <p className="card-text vertical-text">{actor.name}</p>
                           <p className="text-muted">
                             <small>{actor.character}</small>
                           </p>

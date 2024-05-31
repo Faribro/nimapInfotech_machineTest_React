@@ -5,6 +5,7 @@
     z-index: 1050; /* Ensure this value is higher than other elements on your page */
     backdrop-filter: blur(10px); /* Glass effect */
     background-color: rgba(0, 0, 0, 0.6); /* Dark shade with opacity */
+    margin-bottom: 20px; /* Add margin below the header */
   }
   
   .navbar-scrolled {
@@ -29,15 +30,26 @@
       opacity: 1;
     }
   }
-
-  .navbar-fixed {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1050; /* Ensure this value is higher than other elements on your page */
+  
+  /* Add the animation class */
+  .animate__animated {
+    animation-duration: 1s;
+    animation-fill-mode: both;
   }
   
-  .navbar-scrolled {
-    opacity: 0.9;
+  .animate__fadeInDown {
+    animation-name: fadeInDown;
+  }
+  
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translate3d(0, -100%, 0);
+    }
+  
+    to {
+      opacity: 1;
+      transform: none;
+    }
   }
   

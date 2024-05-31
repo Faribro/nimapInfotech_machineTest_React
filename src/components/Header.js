@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import '../Header.css'; // Import your CSS file
+import 'animate.css';
+import '../Header.css';
 
 const Header = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -29,9 +30,10 @@ const Header = ({ onSearch }) => {
 
   return (
     <header
-      className={`navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed ${
+      className={`navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed animate__animated animate__fadeInDown ${
         isScrolled ? 'navbar-scrolled' : ''
       }`}
+      style={{ marginBottom: '200px', marginTop: '10px', padding: '1%' }} // Add padding
     >
       <div className="container-fluid">
         <Link to="/" className="navbar-brand">MovieDb</Link>
