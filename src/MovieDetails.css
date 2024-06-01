@@ -1,113 +1,125 @@
+
+/* Details Section */
+.details-section {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  background-color: #223145;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+  margin: 20px 0;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+}
+
 .movie-details {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between; /* Improved spacing */
-    margin: 20px 0; /* Adjusted margin for better layout */
-  }
+  display: flex;
+  flex-direction: column;
+}
+
+.movie-details-bg {
+  width: 100% auto;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+
   
-  .title {
-    font-size: 1.5rem; /* Use rem for better responsiveness */
-    color: white;
-    margin-top: 10px;
-  }
   
-  .rating {
-    color: #f39c12;
-    font-size: 14px;
-    margin-top: 10px;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+}
+
+.movie-details-text {
+  margin-left: 20px; /* Add some spacing between image and text */
+}
+
+.card-title {
+  font-size: 2rem; /* Increase title font size for emphasis */
+  margin-bottom: 10px;
+  color: #fff; /* Set title color to white */
+}
+
+.card-text {
+  font-size: 1.1rem; 
+  margin-bottom: 5px;
+  color: #ccc; 
+}
+
+.overview {
+  font-size: 1.1rem; 
+  margin-top: 20px; 
+  color: #fff; 
+}
+
+/* Cast Cards */
+.cast-card {
+  width: 20rem;
+  height: 20rem;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+}
+
+.cast-card-img-wrapper {
+  width: 90%;
+  height: 90%;
+  border-radius: 50%;
+  overflow: hidden;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px solid #fff;
+}
+
+.cast-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.card-body {
+  width: 100%;
+  text-align: center;
+  padding: 1rem;
+  position: relative;
+}
+
+.vertical-text {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  animation: rotate-text 10s infinite linear;
+}
+
+.vertical-text span {
+  position: absolute;
+  transform-origin: 0 8rem;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+@keyframes rotate-text {
+  from {
+    transform: rotate(0deg);
   }
-  
-  .details-section {
-    background-color: #223145;
-    padding: 20px;
-    border-radius: 10px;
-    margin: 20px 0; /* Adjusted margin for better layout */
+  to {
+    transform: rotate(360deg);
   }
-  
-  .details-cast-section {
-    background-color: #404347;
-    padding: 20px;
-    border-radius: 10px;
-    margin: 20px 0; /* Adjusted margin for better layout */
-  }
-  
-  .details {
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    width: 70%; /* Adjusted width for better layout */
-  }
-  
-  .item-images {
-    height: 300px;
-    width: auto;
-    border-radius: 10px;
-    margin-bottom: 20px;
-  }
-  
-  .background-image {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .bg {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 20px;
-    border-radius: 10px;
-    margin-top: 20px;
-    background-color: #404347;
-  }
-  
-  .cast-card {
-    width: 120px; /* Increased card width for better visibility */
-    height: 120px; /* Ensured equal square dimensions */
-    background-color: rgba(0, 0, 0, 0.6); /* Darker card background */
-    color: #fff; /* White text */
-    border: none;
-    border-radius: 50%;
-    overflow: hidden;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    animation: wheel-spin 3s infinite linear; /* Retained animation */
-  }
-  
-  .cast-card-img-wrapper {
-    width: 80%;
-    height: 80%;
-    border-radius: 50%; /* Ensures circular image */
-    overflow: hidden;
-    padding: 0.5rem; /* Added padding to ensure image is visible */
-  }
-  
-  .cast-card-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .card-body {
-    width: 100%; /* Ensured text fits inside card */
-    text-align: center; /* Center-align text */
-  }
-  
-  .vertical-text {
-    writing-mode: vertical-rl; /* Rotate text vertically */
-    transform: rotate(180deg); /* Adjust rotation */
-  }
-  
-  /* Animation for rotation */
-  @keyframes wheel-spin {
-    from {
-      transform: rotate(0deg); /* Start rotation from 0 degrees */
-    }
-    to {
-      transform: rotate(360deg); /* End rotation at 360 degrees */
-    }
-  }
+}

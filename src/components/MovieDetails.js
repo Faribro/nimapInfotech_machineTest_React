@@ -82,13 +82,16 @@ const MovieDetails = () => {
           backgroundImage: `url(${IMAGE_URL}${backdrop_path})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          marginTop: "20px",
+          marginTop: "3rem",
           paddingTop: "20px",
+          paddingBottom: "10px",
+          paddingLeft: "5rem",
+          paddingRight: "5rem",
         }}
       >
         <div className="row mb-4">
           <div className="col-md-12">
-            <div className="card border-0 shadow-lg" style={{ padding: "20px", borderRadius: "9rem" }}>
+            <div className="card border-0 shadow-lg" style={{ padding: "0px", borderRadius: "9rem" }}>
               <div className="card-body" style={{ backgroundColor: "black", paddingLeft: 0, color: "white" }}>
                 <div className="d-flex align-items-start">
                   <img src={`${IMAGE_URL}${poster_path}`} alt={original_title} className="movie-poster" />
@@ -118,7 +121,7 @@ const MovieDetails = () => {
           <div id="cast-slider" className="carousel slide" data-bs-ride="carousel">
             <div className="carousel-inner">
               {cast.reduce((acc, actor, index) => {
-                const chunkIndex = Math.floor(index / 5);
+                const chunkIndex = Math.floor(index / 3);
                 if (!acc[chunkIndex]) {
                   acc[chunkIndex] = [];
                 }
@@ -131,9 +134,15 @@ const MovieDetails = () => {
                       <div key={actor.id} className="card cast-card m-2">
                         <div className="cast-card-img-wrapper">
                           <img src={`${IMAGE_URL}${actor.profile_path}`} alt={actor.name} className="cast-card-img" />
+                          <div className="vertical-text">
+                            {actor.name.split("").map((char, charIndex) => (
+                              <span key={charIndex} style={{ transform: `rotate(${charIndex * 360 / actor.name.length}deg)` }}>
+                                {char}
+                              </span>
+                            ))}
+                          </div>
                         </div>
                         <div className="card-body text-center">
-                          <p className="card-text vertical-text">{actor.name}</p>
                           <p className="text-muted">
                             <small>{actor.character}</small>
                           </p>
