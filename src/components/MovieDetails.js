@@ -75,58 +75,87 @@ const MovieDetails = () => {
   return (
     <>
       <Header />
-      <div className="container-fluid bg-dark py-5">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-4">
+      <div
+        className="container-fluid movie-details-bg"
+        style={{ backgroundImage: `url(${IMAGE_URL}${backdrop_path})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        height: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: "5.5rem",
+        marginBottom: "1rem",
+        padding: "0 7rem",
+        backgroundRepeat: "no-repeat",
+        backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)), url(${IMAGE_URL}${backdrop_path})`,
+      }}
+       
+
+      >
+        <div className="container py-5">
+          <div className="row dot">
+            <div className="col-lg-4">
               <img src={`${IMAGE_URL}${poster_path}`} alt={original_title} className="img-fluid mb-3" />
             </div>
-            <div className="col-md-8">
-              <h1 className="text-light">{original_title}</h1>
-              <p className="text-light">Rating: {vote_average}</p>
-              <p className="text-light">Genres: {genres.map((genre) => genre.name).join(", ")}</p>
-              <p className="text-light">Release Date: {formattedDate}</p>
-              <h2 className="text-light">Overview</h2>
-              <p className="text-light">{overview}</p>
+            <div className="col-lg-8">
+              <h1>{original_title}</h1>
+              <p>Rating: {vote_average}</p>
+              <p>Genres: {genres.map((genre) => genre.name).join(", ")}</p>
+              <p>Release Date: {formattedDate}</p>
+              <h2>Overview</h2>
+              <p>{overview}</p>
             </div>
           </div>
         </div>
       </div>
       <div className="container">
-        <h2 className="my-4">Cast</h2>
-        <div id="cast-slider" className="carousel slide mb-4" data-bs-ride="carousel">
-          <div className="carousel-inner">
-            {cast.reduce((acc, actor, index) => {
-              const chunkIndex = Math.floor(index / 3);
-              if (!acc[chunkIndex]) {
-                acc[chunkIndex] = [];
-              }
-              acc[chunkIndex].push(actor);
-              return acc;
-            }, []).map((chunk, chunkIndex) => (
-              <div key={chunkIndex} className={`carousel-item ${chunkIndex === 0 ? "active" : ""}`}>
-                <div className="d-flex justify-content-center">
-                  {chunk.map((actor) => (
-                    <div key={actor.id} className="card cast-card m-2">
-                      <img src={`${IMAGE_URL}${actor.profile_path}`} alt={actor.name} className="card-img-top" />
-                      <div className="card-body text-center">
-                        <p className="text-muted mb-0">{actor.character}</p>
-                        <p className="text-muted">{actor.name}</p>
+        <div className="mt-5">
+          <h4 className="mb-4">Cast</h4>
+          <div id="cast-slider" className="carousel slide" data-bs-ride="carousel">
+            <div className="carousel-inner">
+              {cast.reduce((acc, actor, index) => {
+                const chunkIndex = Math.floor(index / 3);
+                if (!acc[chunkIndex]) {
+                  acc[chunkIndex] = [];
+                }
+                acc[chunkIndex].push(actor);
+                return acc;
+              }, []).map((chunk, chunkIndex) => (
+                <div key={chunkIndex} className={`carousel-item ${chunkIndex === 0 ? "active" : ""}`}>
+                  <div className="d-flex justify-content-center">
+                    {chunk.map((actor) => (
+                      <div key={actor.id} className="card cast-card m-2">
+                        <div className="cast-card-img-wrapper">
+                          <img src={`${IMAGE_URL}${actor.profile_path}`} alt={actor.name} className="cast-card-img" />
+                          <div className="vertical-text">
+                            {actor.name.split("").map((char, charIndex) => (
+                              <span key={charIndex} style={{ transform: `rotate(${charIndex * 360 / actor.name.length}deg)` }}>
+                                {char}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="card-body text-center">
+                          <p className="text-muted">
+                            <small>{actor.character}</small>
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+            <button className="carousel-control-prev" type="button" data-bs-target="#cast-slider" data-bs-slide="prev">
+              <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span className="visually-hidden">Previous</span>
+            </button>
+            <button className="carousel-control-next" type="button" data-bs-target="#cast-slider" data-bs-slide="next">
+              <span className="carousel-control-next-icon" aria-hidden="true"></span>
+              <span className="visually-hidden">Next</span>
+            </button>
           </div>
-          <button className="carousel-control-prev" type="button" data-bs-target="#cast-slider" data-bs-slide="prev">
-            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span className="visually-hidden">Previous</span>
-          </button>
-          <button className="carousel-control-next" type="button" data-bs-target="#cast-slider" data-bs-slide="next">
-            <span className="carousel-control-next-icon" aria-hidden="true"></span>
-            <span className="visually-hidden">Next</span>
-          </button>
         </div>
         <Link to="/" className="btn btn-primary mt-4">
           Back to Home

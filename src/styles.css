@@ -3,6 +3,9 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  text-decoration: none;
+  list-style-type: none;
+  color: #333;
 }
 
 body {
@@ -14,6 +17,7 @@ body {
 
 .App {
   text-align: center;
+  
 }
 
 .opacity-low {
@@ -81,8 +85,11 @@ body {
   border-radius: 4px;
   padding: 8px;
   border: none;
+  outline: none;
+  transition: width 0.3s;
   margin-right: 10px;
   font-size: 16px;
+
 }
 
 .search-button {
@@ -94,7 +101,10 @@ body {
   color: white;
   border: none;
   cursor: pointer;
+  font-size: 16px;
   transition: background-color 0.3s;
+  
+  
 }
 
 .search-button:hover {
@@ -110,6 +120,9 @@ body {
   padding: 20px;
   margin-top: 20px;
   border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  animation: slideIn 1s ease-in-out;
+
 }
 
 /* Card Styles */
@@ -127,29 +140,22 @@ body {
   justify-content: space-between;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s, box-shadow 0.3s;
+  
 }
 
 .cards:hover {
   transform: scale(1.05);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  
 }
 
 .images {
   height: 250px;
   width: 150px;
   border-radius: 10px;
-}
+  object-fit: cover;
+  margin: 0 auto;
 
-.title {
-  font-size: 16px;
-  color: white;
-  margin-top: 10px;
-}
-
-.rating {
-  color: #f39c12;
-  font-size: 14px;
-  margin-top: 10px;
 }
 
 /* Responsive Styles */
@@ -157,6 +163,7 @@ body {
   .navbar {
     padding: 10px;
   }
+  
 
   .logo-name {
     font-size: 16px;
@@ -235,12 +242,16 @@ body {
   color: #fff;
   padding: 40px 0;
   text-align: center;
+  animation: slideIn 1s ease-in-out;
+  background-color: aliceblue;
+  
 }
 
 .footer-content {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #f75b49;
 }
 
 .footer-logo {
@@ -267,15 +278,103 @@ body {
 }
 
 /* Animation and Gradient Effects */
+
+
+
 @keyframes gradient {
   0% {
     background-position: 0% 50%;
   }
   50% {
     background-position: 100% 50%;
+    
   }
   100% {
     background-position: 0% 50%;
+
+  }
+
+}
+
+
+@keyframes slideIn {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOut {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes slideInRight {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutRight {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes slideInLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes slideInTop {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOutTop {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes slideInBottom {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
   }
 }
 
@@ -286,110 +385,17 @@ body {
   100% {
     opacity: 1;
   }
-}
 
-/* Cast Styles */
-.cast {
-  background-color: #404347;
-  padding: 20px;
-  border-radius: 10px;
-  margin-top: 20px;
-}
-
-.cast-list {
-  display: flex;
-  flex-wrap: wrap;
-  list-style-type: none;
-  justify-content: center;
-  padding: 0;
-}
-
-.cast-item {
-  margin: 10px;
-  text-align: center;
-}
-
-.cast-image {
-  height: 200px;
-  width: 160px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-}
-
-/* Actor Details Styles */
-.actor-details {
-  color: white;
-  margin-top: 20px;
-  text-align: center;
-}
-
-.actor-details .cast-name {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.actor-details .cast-character {
-  font-size: 16px;
-  color: #f39c12;
-  margin-bottom: 10px;
-}
-
-/* Additional Media Queries for Responsiveness */
-@media screen and (max-width: 576px) {
-  .item-images {
-    height: 200px;
-  }
-
-  .details-title {
-    font-size: 18px;
-  }
-
-  .paragraph {
-    font-size: 14px;
-  }
-
-  .overview {
-    font-size: 16px;
-  }
-
-  .movie-item {
-    height: 100px;
-    width: 100px;
-  }
-}
-
-@media screen and (max-width: 376px) {
-  .details-section {
-    height: auto;
-  }
-
-  .item-images {
-    height: 150px;
-  }
-
-  .details-title {
-    font-size: 14px;
-  }
-
-  .paragraph {
-    font-size: 12px;
-  }
-
-  .overview {
-    font-size: 14px;
-  }
-
-  .movie-item {
-    height: 100px;
-    width: 100px;
-  }
 }
 
 /* Animation for Navbar and Footer */
+
+
+
 .navbar,
 .footer {
   animation: fadeIn 1s ease-in-out;
+  animation-fill-mode: forwards;
 }
 
 /* Navbar on Scroll */
@@ -406,28 +412,72 @@ body {
 
 /* Hover Effects */
 .cards,
-.cast-image,
-.movie-item,
-.actor-image,
 .search-button,
 .social-links a,
 .contact-item a,
 .nav-link,
 .footer-logo img {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .cards:hover,
-.cast-image:hover,
-.movie-item:hover,
-.actor-image:hover,
 .search-button:hover,
 .social-links a:hover,
 .contact-item a:hover,
 .nav-link:hover,
 .footer-logo img:hover {
+  transform: scale(1.05);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
+/* Hover Effects for Navbar */
+.nav-link {
+  position: relative;
+}
+
+.nav-link::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #f39c12;
+  visibility: hidden;
+  transform: scaleX(0);
+  transition: all 0.3s ease-in-out;
+}
+
+.nav-link:hover::before {
+  visibility: visible;
+  transform: scaleX(1);
+}
+
+/* Hover Effects for Footer */
+
+.social-links a,
+.contact-item a {
+  position: relative;
+}
+
+.social-links a::before,
+.contact-item a::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #f39c12;
+  visibility: hidden;
+  transform: scaleX(0);
+  transition: all 0.3s ease-in-out;
+}
+
+.social-links a:hover::before,
+.contact-item a:hover::before {
+  visibility: visible;
+  transform: scaleX(1);
+}
 
