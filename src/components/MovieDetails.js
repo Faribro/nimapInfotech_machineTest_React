@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import Header from "./Header";
 import { IMAGE_URL } from "../utils/constant";
 import NotFoundMessage from "./NotFoundMessage";
+import { Carousel } from "react-bootstrap"; // Import Carousel from react-bootstrap
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../MovieDetails.css";
 
@@ -42,17 +43,6 @@ const MovieDetails = () => {
     fetchDetails();
   }, [id]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const carousel = document.querySelector("#cast-slider");
-      if (carousel && !carousel.classList.contains("carousel-sliding")) {
-        carousel.dispatchEvent(new Event("slide.bs.carousel", { bubbles: true }));
-      }
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, []);
-
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -77,21 +67,20 @@ const MovieDetails = () => {
       <Header />
       <div
         className="container-fluid movie-details-bg"
-        style={{ backgroundImage: `url(${IMAGE_URL}${backdrop_path})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        height: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: "5.5rem",
-        marginBottom: "1rem",
-        padding: "0 7rem",
-        backgroundRepeat: "no-repeat",
-        backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)), url(${IMAGE_URL}${backdrop_path})`,
-      }}
-       
-
+        style={{
+          backgroundImage: `url(${IMAGE_URL}${backdrop_path})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          height: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop: "5.5rem",
+          marginBottom: "1rem",
+          padding: "0 7rem",
+          backgroundRepeat: "no-repeat",
+          backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)), url(${IMAGE_URL}${backdrop_path})`,
+        }}
       >
         <div className="container py-5">
           <div className="row dot">
@@ -112,50 +101,40 @@ const MovieDetails = () => {
       <div className="container">
         <div className="mt-5">
           <h4 className="mb-4">Cast</h4>
-          <div id="cast-slider" className="carousel slide" data-bs-ride="carousel">
-            <div className="carousel-inner">
-              {cast.reduce((acc, actor, index) => {
-                const chunkIndex = Math.floor(index / 3);
-                if (!acc[chunkIndex]) {
-                  acc[chunkIndex] = [];
-                }
-                acc[chunkIndex].push(actor);
-                return acc;
-              }, []).map((chunk, chunkIndex) => (
-                <div key={chunkIndex} className={`carousel-item ${chunkIndex === 0 ? "active" : ""}`}>
-                  <div className="d-flex justify-content-center">
-                    {chunk.map((actor) => (
-                      <div key={actor.id} className="card cast-card m-2">
-                        <div className="cast-card-img-wrapper">
-                          <img src={`${IMAGE_URL}${actor.profile_path}`} alt={actor.name} className="cast-card-img" />
-                          <div className="vertical-text">
-                            {actor.name.split("").map((char, charIndex) => (
-                              <span key={charIndex} style={{ transform: `rotate(${charIndex * 360 / actor.name.length}deg)` }}>
-                                {char}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="card-body text-center">
-                          <p className="text-muted">
-                            <small>{actor.character}</small>
-                          </p>
+          <Carousel id="cast-slider"> {/* Use Carousel component from react-bootstrap */}
+            {cast.reduce((acc, actor, index) => {
+              const chunkIndex = Math.floor(index / 3);
+              if (!acc[chunkIndex]) {
+                acc[chunkIndex] = [];
+              }
+              acc[chunkIndex].push(actor);
+              return acc;
+            }, []).map((chunk, chunkIndex) => (
+              <Carousel.Item key={chunkIndex}> {/* Wrap items in Carousel.Item */}
+                <div className="d-flex justify-content-center">
+                  {chunk.map((actor) => (
+                    <div key={actor.id} className="card cast-card m-2">
+                      <div className="cast-card-img-wrapper">
+                        <img src={`${IMAGE_URL}${actor.profile_path}`} alt={actor.name} className="cast-card-img" />
+                        <div className="vertical-text">
+                          {actor.name.split("").map((char, charIndex) => (
+                            <span key={charIndex} style={{ transform: `rotate(${charIndex * 360 / actor.name.length}deg)` }}>
+                              {char}
+                            </span>
+                          ))}
                         </div>
                       </div>
-                    ))}
-                  </div>
+                      <div className="card-body text-center">
+                        <p className="text-muted">
+                          <small>{actor.character}</small>
+                        </p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-            <button className="carousel-control-prev" type="button" data-bs-target="#cast-slider" data-bs-slide="prev">
-              <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span className="visually-hidden">Previous</span>
-            </button>
-            <button className="carousel-control-next" type="button" data-bs-target="#cast-slider" data-bs-slide="next">
-              <span className="carousel-control-next-icon" aria-hidden="true"></span>
-              <span className="visually-hidden">Next</span>
-            </button>
-          </div>
+              </Carousel.Item>
+            ))}
+          </Carousel>
         </div>
         <Link to="/" className="btn btn-primary mt-4">
           Back to Home
