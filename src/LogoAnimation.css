@@ -101,4 +101,28 @@
       height: 5px;
     }
   }
+
+  @media (max-width: 768px) {
+    .logo-container {
+      width: 200px;
+      height: 60px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .logo-container {
+      width: 150px;
+      height: 50px;
+    }
+  }
+  
+  @media (max-width: 375px) {
+    .logo-container {
+      width: 120px;
+      height: 40px;
+    }
+  }
+  
+ 
+  
   
