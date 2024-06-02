@@ -1,380 +1,341 @@
-/* Reset and General Styles */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  text-decoration: none;
-  list-style-type: none;
-  color: #333;
-}
-
-body {
+  margin: 0px;
+  padding: 0px;
   font-family: sans-serif;
-  background: linear-gradient(45deg, #f39c12, #e74c3c, #9b59b6, #3498db, #1abc9c, #f39c12);
-  background-size: 400% 400%;
-  animation: gradient 15s infinite;
 }
 
 .App {
+  font-family: sans-serif;
   text-align: center;
-  
 }
 
-.opacity-low {
-  opacity: 0.5;
-}
-
-/* Container Styles */
 .container {
   width: 100%;
-  min-width: 100%;
   background-color: #5a5a5a;
-}
-
-/* Navbar Styles */
-.navbar {
+  min-width: 100%;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 20px;
-  background-color: #333;
+  flex-direction: column;
 }
 
-.logo-name {
-  font-size: 20px;
-  color: white;
-  font-weight: bold;
+@media (min-width: 500px) {
+  .container {
+    max-width: 100%;
+  }
 }
 
-.nav-items {
-  display: flex;
-  align-items: center;
-}
 
-.nav-list {
-  display: flex;
-  list-style-type: none;
-  padding: 0;
-}
 
-.nav-item {
-  margin-left: 20px;
-}
 
-.nav-link {
-  color: white;
-  text-decoration: none;
-  font-size: 16px;
-  transition: color 0.3s;
-}
 
-.nav-link:hover {
-  color: #f39c12;
-}
-
-/* Search Form Styles */
-.search-form {
-  display: flex;
-  align-items: center;
-  margin-right: 20px;
-}
-
-.input-field {
-  height: 25px;
-  width: 120px;
-  border-radius: 4px;
-  padding: 8px;
-  border: none;
-  outline: none;
-  transition: width 0.3s;
-  margin-right: 10px;
-  font-size: 16px;
-
-}
-
-.search-button {
-  height: 40px;
-  width: 60px;
-  padding: 10px;
-  border-radius: 5px;
-  background-color: #f39c12;
-  color: white;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s;
-  
-  
-}
-
-.search-button:hover {
-  background-color: #e67e22;
-}
-
-/* Cards Container Styles */
 .cards-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   background-color: #303030;
+  justify-content: center;
   padding: 20px;
   margin-top: 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  animation: slideIn 1s ease-in-out;
-
 }
 
-/* Card Styles */
 .cards {
   margin: 20px;
   text-align: center;
+  transition: transform 0.3s;
   border-radius: 10px;
   background-color: #404347;
   padding: 20px;
-  width: calc(100% - 40px);
-  max-width: 200px;
+  width: 200px;
   height: 400px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s, box-shadow 0.3s;
-  
 }
 
 .cards:hover {
   transform: scale(1.05);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  
 }
 
 .images {
   height: 250px;
   width: 150px;
   border-radius: 10px;
-  object-fit: cover;
-  margin: 0 auto;
-
 }
 
-/* Responsive Styles */
-@media screen and (max-width: 576px) {
-  .navbar {
-    padding: 10px;
-  }
-  
+.title {
+  font-size: 16px;
+  color: white;
+  margin-top: 10px;
+}
 
-  .logo-name {
+.rating {
+  color: #f39c12;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.details-section {
+  background-color: #223145;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px;
+}
+
+.details-cast-section {
+  background-color: #404347;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.item-images {
+  height: 300px;
+  width: auto;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.background-image {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.bg {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+  background-color: #404347;
+}
+
+.bg-items {
+  padding-left: 20px;
+}
+
+.details-title {
+  font-size: 24px;
+  color: white;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.details-rating {
+  font-size: 18px;
+  color: #f39c12;
+  margin-bottom: 12px;
+}
+
+.details-release-date {
+  font-size: 16px;
+  color: white;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.genres {
+  font-size: 14px;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.movie-item {
+  height: 150px;
+  width: 100px;
+  border-radius: 10px;
+  margin: 10px;
+}
+
+.movie-details {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  margin-top: 20px;
+}
+
+.overview {
+  font-size: 18px;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.paragraph {
+  font-size: 16px;
+  color: #f0f0f0;
+  margin-bottom: 20px;
+}
+
+.actor-image {
+  height: 200px;
+  width: 160px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.cast-heading {
+  color: white;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.cast {
+  background-color: #404347;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.cast-list {
+  display: flex;
+  flex-wrap: wrap;
+  list-style-type: none;
+  justify-content: center;
+  padding: 0;
+}
+
+.cast-item {
+  margin: 10px;
+  text-align: center;
+}
+
+.cast-image {
+  height: 200px;
+  width: 160px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.actor-details {
+  color: white;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.actor-details .cast-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.actor-details .cast-character {
+  font-size: 16px;
+  color: #f39c12;
+  margin-bottom: 10px;
+}
+
+@media screen and (max-width: 576px) {
+  .item-images {
+    height: 200px;
+  }
+
+  .details-title {
+    font-size: 18px;
+  }
+
+  .paragraph {
+    font-size: 14px;
+  }
+
+  .overview {
     font-size: 16px;
   }
 
-  .nav-item {
-    margin-left: 10px;
-  }
-
-  .nav-link {
-    font-size: 12px;
-  }
-
-  .input-field {
-    font-size: 12px;
-    width: 50px;
-  }
-
-  .search-button {
-    font-size: 10px;
-    width: 40px;
-    padding: 8px;
-  }
-
-  .cards {
-    width: calc(100% - 40px);
-  }
-
-  .images {
-    height: 200px;
+  .movie-item {
+    height: 100px;
+    width: 100px;
   }
 }
 
 @media screen and (max-width: 376px) {
-  .navbar {
-    padding: 5px;
+  .details-section {
+    height: auto;
   }
 
-  .logo-name {
+  .item-images {
+    height: 150px;
+  }
+
+  .details-title {
+    font-size: 14px;
+  }
+
+  .paragraph {
     font-size: 12px;
   }
 
-  .nav-item {
-    margin-left: 5px;
+  .overview {
+    font-size: 14px;
   }
 
-  .nav-link {
-    font-size: 8px;
-  }
-
-  .input-field {
-    font-size: 6px;
-    width: 30px;
-    height: 15px;
-  }
-
-  .search-button {
-    font-size: 6px;
-    width: 30px;
-    padding: 5px;
-    height: 29px;
-  }
-
-  .cards {
-    width: calc(100% - 20px);
-  }
-
-  .images {
-    height: 150px;
+  .movie-item {
+    height: 100px;
+    width: 100px;
   }
 }
-
-/* Footer Styles */
+/* Footer styles */
 .footer {
   background-color: #000;
   color: #fff;
   padding: 40px 0;
   text-align: center;
-  animation: slideIn 1s ease-in-out;
-  background-color: aliceblue;
-  
+
 }
 
 .footer-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #f75b49;
+
 }
 
 .footer-logo {
   margin-bottom: 20px;
+
 }
 
 .social-links {
   margin-bottom: 20px;
+
 }
 
 .contact-info {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+
 }
 
 .contact-item {
   margin: 0 20px;
   margin-bottom: 10px;
+
 }
 
 .contact-item span {
   margin-right: 5px;
+
 }
 
-/* Animation and Gradient Effects */
-
-
-
+/* Add animation and gradient effects */
 @keyframes gradient {
   0% {
     background-position: 0% 50%;
   }
   50% {
     background-position: 100% 50%;
-    
   }
   100% {
     background-position: 0% 50%;
-
-  }
-
-}
-
-
-@keyframes slideIn {
-  0% {
-    transform: translateY(100%);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideOut {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(100%);
-  }
-}
-
-@keyframes slideInRight {
-  0% {
-    transform: translateX(100%);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideOutRight {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-@keyframes slideInLeft {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideOutLeft {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
-}
-
-@keyframes slideInTop {
-  0% {
-    transform: translateY(-100%);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideOutTop {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(-100%);
-  }
-}
-
-@keyframes slideInBottom {
-  0% {
-    transform: translateY(100%);
-  }
-  100% {
-    transform: translateY(0);
   }
 }
 
@@ -385,99 +346,107 @@ body {
   100% {
     opacity: 1;
   }
-
 }
-
-/* Animation for Navbar and Footer */
-
-
 
 .navbar,
 .footer {
   animation: fadeIn 1s ease-in-out;
-  animation-fill-mode: forwards;
+
 }
 
-/* Navbar on Scroll */
-.navbar-fixed {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1050; /* Ensure this value is higher than other elements on your page */
+
+
+
+/* Add gradient effect */
+
+body {
+  background: linear-gradient(45deg, #f39c12, #e74c3c, #9b59b6, #3498db, #1abc9c, #f39c12);
+  background-size: 400% 400%;
+  animation: gradient 15s infinite;
+
+
 }
 
-.navbar-scrolled {
-  opacity: 0.9;
-}
+/* Add hover effect to cards */
 
-/* Hover Effects */
-.cards,
-.search-button,
-.social-links a,
-.contact-item a,
-.nav-link,
-.footer-logo img {
+.cards {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s, box-shadow 0.3s;
+
 }
 
-.cards:hover,
-.search-button:hover,
-.social-links a:hover,
-.contact-item a:hover,
-.nav-link:hover,
+/* Add hover effect to cast images */
+
+.cast-image {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Add hover effect to movie images */
+
+.movie-item {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Add hover effect to actor images */
+
+.actor-image {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Add hover effect to search button */
+
+.search-button {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Add hover effect to footer links */
+
+.social-links a {
+  color: #fff;
+  margin: 0 10px;
+  transition: color 0.3s;
+}
+
+.social-links a:hover {
+  color: #f39c12;
+}
+
+/* Add hover effect to footer contact info */
+
+.contact-item a {
+  color: #fff;
+  transition: color 0.3s;
+  
+}
+
+.contact-item a:hover {
+  color: #f39c12;
+}
+
+/* Add hover effect to navbar links */
+
+.nav-link {
+  transition: color 0.3s;
+}
+
+.nav-link:hover {
+  color: #f39c12;
+}
+
+/* Add hover effect to footer logo */
+
+.footer-logo img {
+  transition: transform 0.3s;
+}
+
 .footer-logo img:hover {
-  transform: scale(1.05);
+  transform: scale(1.1);
+}
+
+/* Add hover effect to cards */
+
+.cards:hover {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-/* Hover Effects for Navbar */
-.nav-link {
-  position: relative;
-}
-
-.nav-link::before {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 2px;
-  bottom: 0;
-  left: 0;
-  background-color: #f39c12;
-  visibility: hidden;
-  transform: scaleX(0);
-  transition: all 0.3s ease-in-out;
-}
-
-.nav-link:hover::before {
-  visibility: visible;
-  transform: scaleX(1);
-}
-
-/* Hover Effects for Footer */
-
-.social-links a,
-.contact-item a {
-  position: relative;
-}
-
-.social-links a::before,
-.contact-item a::before {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 2px;
-  bottom: 0;
-  left: 0;
-  background-color: #f39c12;
-  visibility: hidden;
-  transform: scaleX(0);
-  transition: all 0.3s ease-in-out;
-}
-
-.social-links a:hover::before,
-.contact-item a:hover::before {
-  visibility: visible;
-  transform: scaleX(1);
-}
+/* Add hover effect to cast images */
 

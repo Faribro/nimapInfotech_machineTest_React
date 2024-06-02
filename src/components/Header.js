@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import 'animate.css';
-import '../Header.css';
+import '../Header.css'; // Import CSS file for custom styling
+import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 
 const Header = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleChange = (e) => {
     setSearchQuery(e.target.value);
@@ -14,6 +15,10 @@ const Header = ({ onSearch }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSearch(searchQuery);
+  };
+
+  const handleToggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
   };
 
   useEffect(() => {
@@ -29,29 +34,20 @@ const Header = ({ onSearch }) => {
   }, []);
 
   return (
-    <header
-      className={`navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed animate__animated animate__fadeInDown ${
-        isScrolled ? 'navbar-scrolled' : ''
-      }`}
-      style={{ marginBottom: '200px', marginTop: '10px', padding: '1%' }} // Add padding
-    >
+    <header className={`navbar navbar-expand-lg navbar-dark bg-dark fixed-top ${isScrolled ? 'navbar-scrolled' : ''}`}>
       <div className="container-fluid">
         <Link to="/" className="navbar-brand">MovieDb</Link>
         <button
           className="navbar-toggler"
           type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
+          onClick={handleToggleMenu}
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
-          <ul className="navbar-nav">
+        <div className={`collapse navbar-collapse ${isMenuOpen ? 'show' : ''}`}>
+          <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link to="/" className="nav-link active">Popular</Link>
+              <Link to="/" className="nav-link">Popular</Link>
             </li>
             <li className="nav-item">
               <Link to="/top-rated" className="nav-link">Top Rated</Link>
@@ -69,9 +65,7 @@ const Header = ({ onSearch }) => {
               value={searchQuery}
               onChange={handleChange}
             />
-            <button className="btn btn-outline-success" type="submit">
-              Search
-            </button>
+            <button className="btn btn-outline-success" type="submit">Search</button>
           </form>
         </div>
       </div>
