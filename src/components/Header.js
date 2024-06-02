@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../Header.css'; // Import CSS file for custom styling
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
+import LogoAnimation from './LogoAnimation'; // Import the LogoAnimation component
 
 const Header = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -36,7 +37,9 @@ const Header = ({ onSearch }) => {
   return (
     <header className={`navbar navbar-expand-lg navbar-dark bg-dark fixed-top ${isScrolled ? 'navbar-scrolled' : ''}`}>
       <div className="container-fluid">
-        <Link to="/" className="navbar-brand">MovieDb</Link>
+        <Link to="/" className="navbar-brand">
+          <LogoAnimation />
+        </Link>
         <button
           className="navbar-toggler"
           type="button"

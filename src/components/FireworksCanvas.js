@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import anime from "animejs/lib/anime.es.js";
 
-
 const FireworksCanvas = () => {
   useEffect(() => {
     const iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
@@ -10,7 +9,7 @@ const FireworksCanvas = () => {
 
     const setCanvasSize = () => {
       canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      canvas.height = window.innerHeight; // Set canvas height to window height
     };
 
     const canvas = document.querySelector('.fireworks');
@@ -46,7 +45,7 @@ const FireworksCanvas = () => {
       p.x = x;
       p.y = y;
       p.color = ['#FF324A', '#31FFA6', '#206EFF', '#FFFF99'][anime.random(0, 3)];
-      p.radius = anime.random(getFontSize(), getFontSize() * 2);
+      p.radius = anime.random(4, 8); // Adjust radius calculation as needed
       p.draw = () => {
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI, true);
@@ -71,7 +70,7 @@ const FireworksCanvas = () => {
     };
 
     const animateParticules = (x, y) => {
-      setCanvasSize();
+      setCanvasSize(); // Set canvas size when animating
       const particules = createParticles(x, y);
       const circle = createCircle(x, y);
       const particulesAnimation = anime({
@@ -85,7 +84,7 @@ const FireworksCanvas = () => {
       });
       const circleAnimation = anime({
         targets: circle,
-        radius: () => anime.random(getFontSize() * 8.75, getFontSize() * 11.25),
+        radius: () => anime.random(35, 55), // Adjust radius calculation as needed
         lineWidth: 0,
         alpha: {
           value: 0,
@@ -131,7 +130,7 @@ const FireworksCanvas = () => {
     };
   }, []);
 
-  return <canvas className="fireworks" />;
+  return <canvas className="fireworks" style={{ position: "absolute", top: 0, left: 0, zIndex: 1000 }} />; // Increase z-index
 };
 
 export default FireworksCanvas;
