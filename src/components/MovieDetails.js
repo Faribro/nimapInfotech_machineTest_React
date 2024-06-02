@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import Header from "./Header";
 import { IMAGE_URL } from "../utils/constant";
 import NotFoundMessage from "./NotFoundMessage";
-import { Carousel } from "react-bootstrap"; // Import Carousel from react-bootstrap
+import { Carousel } from "react-bootstrap"; 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../MovieDetails.css";
 
@@ -75,11 +75,12 @@ const MovieDetails = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          marginTop: "5.5rem",
+          marginTop: "4rem",
           marginBottom: "1rem",
           padding: "0 7rem",
           backgroundRepeat: "no-repeat",
           backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)), url(${IMAGE_URL}${backdrop_path})`,
+          animation: "fade 1s ease-in-out forwards"
         }}
       >
         <div className="container py-5">
@@ -101,7 +102,7 @@ const MovieDetails = () => {
       <div className="container">
         <div className="mt-5">
           <h4 className="mb-4">Cast</h4>
-          <Carousel id="cast-slider"> {/* Use Carousel component from react-bootstrap */}
+          <Carousel id="cast-slider"> 
             {cast.reduce((acc, actor, index) => {
               const chunkIndex = Math.floor(index / 3);
               if (!acc[chunkIndex]) {
