@@ -21,9 +21,9 @@
       
       const setCanvasSize = () => {
         const navbarHeight = getNavbarHeight();
-        const animationAreaHeight = 600; // Adjust animation area height as needed
+        const animationAreaHeight = 630; // Adjust animation area height as needed
         canvas.width = window.innerWidth;
-        // Reduce height by navbar and animation area
+        // Reduced height by navbar and animation area
         canvas.height = window.innerHeight - navbarHeight - animationAreaHeight;
       };
       
