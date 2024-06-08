@@ -9,7 +9,7 @@
 body {
   background: linear-gradient(45deg, #f39c12, #e74c3c, #9b59b6, #3498db, #1abc9c, #f39c12);
   background-size: 400% 400%;
-  animation: gradient 15s infinite linear !important;
+  animation: gradient 10s infinite linear !important;
 }
 
 .App {
